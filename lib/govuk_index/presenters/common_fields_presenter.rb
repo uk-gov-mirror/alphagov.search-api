@@ -25,6 +25,7 @@ module GovukIndex
     delegate_to_payload :rendering_app
     delegate_to_payload :search_user_need_document_supertype
     delegate_to_payload :user_journey_document_supertype
+    delegate_to_payload :updated_timestamp, hash_key: "updated_at"
     delegate_to_payload :content_purpose_supergroup
     delegate_to_payload :content_purpose_subgroup
 

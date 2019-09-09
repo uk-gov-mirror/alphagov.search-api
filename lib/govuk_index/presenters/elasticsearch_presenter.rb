@@ -124,6 +124,7 @@ module GovukIndex
         uk_market_conformity_assessment_body_testing_locations: specialist.uk_market_conformity_assessment_body_testing_locations,
         uk_market_conformity_assessment_body_type:     specialist.uk_market_conformity_assessment_body_type,
         uk_market_conformity_assessment_body_website:  specialist.uk_market_conformity_assessment_body_website,
+        updated_timestamp:                   common_fields.updated_timestamp,
         user_journey_document_supertype:     common_fields.user_journey_document_supertype,
         value_of_funding:                    specialist.value_of_funding,
         vessel_type:                         specialist.vessel_type,
