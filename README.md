@@ -1,3 +1,4 @@
+
 # Search API
 
 **This was called "rummager", and to avoid messing up the `git blame`, there are still a lot of references to "rummager" (eg, filenames).  You can read "rummager" as "search-api".**
