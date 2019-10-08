@@ -43,7 +43,7 @@ module QueryComponents
     # Behaves as a freshness boost for newer documents with a public_timestamp and search_format_types announcement
     def time_boost
       {
-        filter: { term: { search_format_types: "announcement" } },
+        # filter: { term: { search_format_types: "announcement" } },
         script_score: {
           script: {
             lang: "painless",
