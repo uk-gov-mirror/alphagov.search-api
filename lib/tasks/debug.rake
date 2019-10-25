@@ -93,9 +93,13 @@ namespace :debug do
   def send_to_graphite(query, score)
     return unless ENV["SEND_TO_GRAPHITE"]
 
-    Services.statsd_client.gauge(
+    puts "Stat: relevancy.query.#{query.downcase.gsub(" ", "_")}.rank_eval"
+
+    res = Services.statsd_client.gauge(
       "relevancy.query.#{query.downcase.gsub(" ", "_")}.rank_eval",
       score,
     )
+
+    puts res
   end
 end
