@@ -1,7 +1,7 @@
 module QueryComponents
   class Popularity < BaseComponent
     POPULARITY_OFFSET = 0.001
-    POPULARITY_WEIGHT = 0.0000001
+    POPULARITY_WEIGHT = 0.0001
 
     def wrap(boosted_query)
       return boosted_query if search_params.disable_popularity?
