@@ -15,7 +15,7 @@ module QueryComponents
     MATCH_ALL_DESCRIPTION_BOOST = 5
     MATCH_ALL_INDEXABLE_CONTENT_BOOST = 2
     MATCH_ALL_MULTI_BOOST = 0.5
-    MATCH_ANY_MULTI_BOOST = 0.5
+    MATCH_ANY_MULTI_BOOST = 0.3
     MATCH_MINIMUM_BOOST = 0.5
 
     # If the search query is a single quoted phrase, we run a different query,
