@@ -70,7 +70,8 @@ module Search
     end
 
     def rerank
-      !ENV["ENABLE_LTR"].nil? && [nil, "relevance"].include?(order) && ab_tests[:relevance] == "B"
+      # !ENV["ENABLE_LTR"].nil? && 
+      [nil, "relevance"].include?(order) && ab_tests[:relevance] == "B"
     end
 
   private
