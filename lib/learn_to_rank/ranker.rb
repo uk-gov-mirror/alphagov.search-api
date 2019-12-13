@@ -34,7 +34,7 @@ module LearnToRank
       begin
         response = HTTParty.post(url, options)
       rescue StandardError => e
-        logger.debug "TF Serving: status_code: 500, message: #{e.message}"
+        logger.info "TF Serving: status_code: 500, message: #{e.message}"
         log_error e.class.to_s
         return nil
       end
@@ -65,9 +65,9 @@ module LearnToRank
 
     def log_response(response)
       if response
-        logger.debug "TF Serving: status_code: #{response.code}, message: #{response.message}"
+        logger.info "TF Serving: status_code: #{response.code}, message: #{response.message}"
       else
-        logger.debug "TF Serving: status_code: 500, message: No response from ranker!"
+        logger.info "TF Serving: status_code: 500, message: No response from ranker!"
       end
     end
 
