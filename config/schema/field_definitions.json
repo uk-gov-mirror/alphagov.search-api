@@ -71,7 +71,7 @@
 
   "link": {
     "description": "The link to the document.  This is usually the path component of the URL of the document, including a leading slash, but sometimes omits the leading slash, and is sometimes an absolute URL of related content which does not appear on GOV.UK",
-    "type": "identifier"
+    "type": "searchable_identifier"
   },
 
   "indexable_content": {
