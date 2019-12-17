@@ -11,6 +11,7 @@ module QueryComponents
 
     # Clause boosts for a search query
     MATCH_ALL_TITLE_BOOST = 10
+    MATCH_ALL_LINK_BOOST = 5
     MATCH_ALL_ACRONYM_BOOST = 10
     MATCH_ALL_DESCRIPTION_BOOST = 5
     MATCH_ALL_INDEXABLE_CONTENT_BOOST = 2
@@ -94,9 +95,10 @@ module QueryComponents
         match_all_terms(%w(title), query, MATCH_ALL_TITLE_BOOST),
         match_all_terms(%w(acronym), query, MATCH_ALL_ACRONYM_BOOST),
         match_all_terms(%w(description), query, MATCH_ALL_DESCRIPTION_BOOST),
+        match_all_terms(%w(link), query, MATCH_ALL_LINK_BOOST),
         match_all_terms(%w(indexable_content), query, MATCH_ALL_INDEXABLE_CONTENT_BOOST),
-        match_all_terms(%w(title acronym description indexable_content), query, MATCH_ALL_MULTI_BOOST),
-        match_any_terms(%w(title acronym description indexable_content), query, MATCH_ANY_MULTI_BOOST),
+        match_all_terms(%w(link title acronym description indexable_content), query, MATCH_ALL_MULTI_BOOST),
+        match_any_terms(%w(link title acronym description indexable_content), query, MATCH_ANY_MULTI_BOOST),
         minimum_should_match("all_searchable_text", query, MATCH_MINIMUM_BOOST),
       ].reject(&:empty?))
     end
