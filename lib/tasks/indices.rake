@@ -121,24 +121,11 @@ this task will run against all active clusters.
   task :migrate_schema, [:clusters] do |_, args|
     clusters_from_args(args).each do |cluster|
       puts "Migrating schema on cluster #{cluster.key}"
-      failed_indices = []
-
-      index_names.each do |index_name|
-        migrator = SchemaMigrator.new(index_name, cluster: cluster)
-        migrator.reindex
-
-        if migrator.failed == true
-          failed_indices << index_name
-        else
-          # We need to switch the aliases without a lock, since
-          # read_only_allow_delete prevents aliases being changed
-          # After running the schema migration, traffic must be
-          # represented anyway, so the race condition is irrelevant
-          migrator.switch_to_new_index
-        end
+      migrator = MultiSchemaMigrator.new(index_names, cluster: cluster)
+      migrator.reindex_all
+      if migrator.failed.any?
+        raise "Failure during reindexing for: #{migrator.failed.join(', ')}"
       end
-
-      raise "Failure during reindexing for: #{failed_indices.join(', ')}" if failed_indices.any?
     end
   end
 
