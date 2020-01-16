@@ -62,7 +62,8 @@ module Search
     end
 
     def rerank
-      RelevanceHelpers.ltr_enabled? && [nil, "relevance"].include?(order) && ab_tests[:relevance] == "B"
+      RelevanceHelpers.ltr_enabled? && [nil, "relevance"].include?(order)
+      # RelevanceHelpers.ltr_enabled? && [nil, "relevance"].include?(order) && ab_tests[:relevance] == "B"
     end
 
   private
