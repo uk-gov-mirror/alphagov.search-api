@@ -26,7 +26,7 @@ module LearnToRank
 
     def check_health
       begin
-        reranker_healthy
+        container_healthy?
       rescue StandardError => e
         @errors << "#{e.class}: #{e.message}"
         false
