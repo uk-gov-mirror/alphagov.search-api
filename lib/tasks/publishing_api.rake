@@ -150,4 +150,10 @@ namespace :publishing_api do
     Services.publishing_api.unpublish(finder["content_id"], "gone")
     Services.publishing_api.unpublish(finder["signup_content_id"], "gone")
   end
+
+  desc "Unpublish /government/brexit-guidance-for-uk-citizens"
+  task :unpublish_brexit_guidance_taxon do
+    content_id = "d7bdaee2-8ea5-460e-b00d-6e9382eb6b61"
+    Services.publishing_api.unpublish(content_id, type: "redirect", alternative_path: "/transition")
+  end
 end
