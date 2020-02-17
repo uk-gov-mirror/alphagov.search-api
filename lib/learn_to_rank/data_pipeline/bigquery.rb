@@ -4,7 +4,7 @@ module LearnToRank::DataPipeline
   module Bigquery
     def self.fetch(credentials)
       now = Time.now
-      before = now - 90 * 24 * 60 * 60
+      before = now - 6 * 31 * 24 * 60 * 60 # 6 months
       sql = "SELECT * FROM (
   SELECT
   searchTerm,

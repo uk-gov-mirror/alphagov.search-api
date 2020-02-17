@@ -7,9 +7,13 @@ module LearnToRank::DataPipeline
       CSV.foreach(datafile, headers: true) do |row|
         # Todo change the column names in the query
         query = row["searchTerm"].strip
-        queries[query] ||= []
-        queries[query] << {
-          link: row["link"],
+        group_by = row["contentId"].present? && row["contentId"] != "(not set)" ? "content_id" : "links"
+        key = "#{query}-#{group_by}"
+        queries[key] ||= []
+        queries[key] << {
+          query: query,
+          link: row["link"] == "(not set)" ? nil : row["link"],
+          content_id: row["contentId"] == "(not set)" ? nil : row["contentId"],
           rank: row["avg_rank"],
           views: row["views"],
           clicks: row["clicks"],
@@ -22,13 +26,13 @@ module LearnToRank::DataPipeline
       queries = {}
       rows.each do |row|
         query = row[:searchTerm].strip
-        group_by = row[:contentId].present? ? "content_id" : "links"
+        group_by = row[:contentId].present? && row[:contentId] != "(not set)" ? "content_id" : "links"
         key = "#{query}-#{group_by}"
         queries[key] ||= []
         queries[key] << {
           query: query,
-          link: row[:link],
-          content_id: row[:contentId],
+          link: row[:link] == "(not set)" ? nil : row[:link],
+          content_id: row[:contentId] == "(not set)" ? nil : row[:contentId],
           rank: row[:avg_rank],
           views: row[:views],
           clicks: row[:clicks],

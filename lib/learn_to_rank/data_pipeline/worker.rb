@@ -18,6 +18,8 @@ module LearnToRank::DataPipeline
         )
       end
 
+      puts "Fetched #{queries.keys.count} queries from BigQuery"
+
       LearnToRank::DataPipeline.set_status("Generating SVM data...")
       GovukStatsd.time("data_pipeline.generation") do
         svm = LearnToRank::DataPipeline::JudgementsToSvm.new(
