@@ -47,7 +47,7 @@ module LearnToRank
         return nil
       end
 
-      if response.nil? || response.body.blank?
+      if response.nil? || response.body.empty?
         logger.debug "SageMaker: No response from ranker!"
         report_error(InvalidSageMakerResponse.new, extra: { response: response })
         return nil

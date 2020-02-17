@@ -5,9 +5,9 @@ RSpec.describe LearnToRank::Features do
 
   describe "#as_hash" do
     context "with no arguments" do
-      subject(:features) { described_class.new }
+      subject(:features) { described_class.new.call }
       it "returns default feature values" do
-        expect(features.as_hash).to eq(
+        expect(features).to eq(
           "1" => 0.0,
           "2" => 0.0,
           "3" => 0.0,
@@ -26,11 +26,17 @@ RSpec.describe LearnToRank::Features do
           "16" => 0.0,
         )
       end
+
+      it "only returns floats" do
+        features.values.each { |value|
+          expect(value).to be_a Float
+        }
+      end
     end
 
     context "when arguments are provided" do
       subject(:features) {
-        described_class.new(
+        described_class.new.call(
           popularity: 10,
           es_score: 0.123456789,
           explain: default_explanation,
@@ -47,7 +53,7 @@ RSpec.describe LearnToRank::Features do
       }
 
       it "returns a hash of features with the correct keys" do
-        expect(features.as_hash).to eq(
+        expect(features).to eq(
           "1" => 10.0,
           "2" => 0.123456789,
           "3" => 125.71911880000002,
@@ -70,19 +76,21 @@ RSpec.describe LearnToRank::Features do
 
     context "with an unknown format or organisation" do
       subject(:features) {
-        described_class.new(
+        described_class.new.call(
           format: "grimoire",
           organisation_content_ids: ["department of magic"],
         )
       }
 
       it "returns a default format value" do
-        expect(features.as_hash["11"]).to eq(0.0)
+        expect(features["11"]).to eq(0.0)
       end
 
       it "returns a default organisation value" do
-        expect(features.as_hash["12"]).to eq(0.0)
+        expect(features["12"]).to eq(0.0)
       end
     end
   end
+
+  # TODO: Something about feature normalisation here.
 end

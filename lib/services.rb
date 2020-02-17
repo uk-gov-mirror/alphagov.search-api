@@ -29,7 +29,7 @@ module Services
   def self.elasticsearch(cluster: nil, hosts: ENV["ELASTICSEARCH_URI"] || "http://localhost:9200", timeout: 5, retry_on_failure: false)
     Elasticsearch::Client.new(
       hosts: cluster ? cluster.uri : hosts,
-      request_timeout: timeout,
+      request_timeout: 10,
       logger: Logging.logger[self],
       retry_on_failure: retry_on_failure,
       transport_options: { headers: { "Content-Type" => "application/json" } },

@@ -29,7 +29,7 @@ module LearnToRank::DataPipeline
       doc = fetch_document(judgement)
       return unless doc
 
-      feats = LearnToRank::Features.new(
+      feats = LearnToRank::Features.new.call(
         explain: doc.fetch(:_explanation, {}),
         popularity: doc["popularity"],
         es_score: doc[:es_score],
@@ -42,7 +42,7 @@ module LearnToRank::DataPipeline
         query: judgement[:query],
         indexable_content: doc["indexable_content"],
         updated_at: doc["updated_at"],
-      ).as_hash
+      )
 
       { features: feats }
     end
@@ -50,11 +50,15 @@ module LearnToRank::DataPipeline
     def fetch_document(judgement)
       unless judgement[:query] == @last_query
         @last_query = judgement[:query]
+        puts "Fetching... #{@last_query}"
+        start = Time.now
         @last_results = do_fetch(judgement)
+        time_end = Time.now
+        puts "Fetched in #{time_end - start} seconds"
       end
 
       unless @last_results.nil?
-        @last_results.find { |doc| doc["link"] == judgement[:link] }
+        @last_results.find { |doc| doc["content_id"] == judgement[:content_id] }
       end
     end
 

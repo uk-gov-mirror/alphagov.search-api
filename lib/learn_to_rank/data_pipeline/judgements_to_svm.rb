@@ -37,7 +37,7 @@ module LearnToRank::DataPipeline
     attr_reader :judgements
 
     def judgement_to_svm(query_id, judgement, features)
-      score = (judgement[:score]).to_s
+      score = (judgement[:rank]).to_s
       qid = "qid:#{query_id}"
       feats = features.map { |feat| "#{feat}:#{judgement.dig(:features, feat) || 0}" }
       [score, qid, feats].flatten.compact.join(" ")

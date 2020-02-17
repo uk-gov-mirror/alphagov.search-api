@@ -10,7 +10,7 @@ module LearnToRank
       scores = scores_from_explain(explain)
       PERMITTED_FIELDS.each do |field|
         define_singleton_method field do
-          scores[field] || 0
+          Float(scores[field] || 0)
         end
       end
     end
@@ -31,7 +31,7 @@ module LearnToRank
         return {} unless field_permitted? field
 
         value = explain["value"]
-        { field => value }
+        { field => Math.log(value) }
       elsif ["sum of:", "max of:", "function score, product of:"].include? description
         # is not a bm25 score so return the sum of scores contained within
         default_hash = Hash.new(0)
