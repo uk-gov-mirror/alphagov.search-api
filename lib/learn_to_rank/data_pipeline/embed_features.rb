@@ -54,7 +54,7 @@ module LearnToRank::DataPipeline
       end
 
       unless @last_results.nil?
-        @last_results.find { |doc| doc["link"] == judgement[:link] }
+        @last_results.find { |doc| doc["link"] == judgement[:link] || doc["content_id"] == judgement[:content_id] }
       end
     end
 

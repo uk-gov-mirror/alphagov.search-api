@@ -9,6 +9,7 @@ module LearnToRank::DataPipeline
   SELECT
   searchTerm,
   link,
+  contentId,
   ROUND(AVG(linkPosition)) AS avg_rank,
   COUNTIF(observationType = 'impression') AS views,
   COUNTIF(observationType = 'click') AS clicks
@@ -18,6 +19,7 @@ module LearnToRank::DataPipeline
     customDimensions.value AS searchTerm,
     hits.hitNumber AS hitNumber, -- This is the hit number of the results page (for impressions) or the page itself (for clicks)
     product.v2ProductName AS link,
+    product.productSKU as contentId,
     product.productListPosition AS linkPosition,
     CASE
         WHEN product.isImpression = true and product.isClick IS NULL THEN 'impression'
@@ -33,7 +35,7 @@ module LearnToRank::DataPipeline
     AND product.productListPosition <= 20
     AND customDimensions.index = 71 -- has search term
   ) AS action
-  GROUP BY searchTerm, link, linkPosition
+  GROUP BY searchTerm, link, contentId, linkPosition
   ORDER BY views desc, searchTerm, linkPosition
 ) AS res
 WHERE views > 10"

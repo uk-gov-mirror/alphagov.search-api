@@ -22,9 +22,13 @@ module LearnToRank::DataPipeline
       queries = {}
       rows.each do |row|
         query = row[:searchTerm].strip
-        queries[query] ||= []
-        queries[query] << {
+        group_by = row[:contentId].present? ? "content_id" : "links"
+        key = "#{query}-#{group_by}"
+        queries[key] ||= []
+        queries[key] << {
+          query: query,
           link: row[:link],
+          content_id: row[:contentId],
           rank: row[:avg_rank],
           views: row[:views],
           clicks: row[:clicks],

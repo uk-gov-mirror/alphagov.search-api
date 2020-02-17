@@ -4,9 +4,11 @@ module LearnToRank::DataPipeline
     # with the doc content_id, view counts, click counts, and avg rank.
     # and turns them into normalised relevancy judgements between 0 and 3.
     # INPUT: {
-    #   "my query" => [
+    #   "my query-links" => [
     #       {
+    #         query: 'my query',
     #         content_id: '0f131434-cc04-4400-b418-ed6f81a09127',
+    #         link: '/blah',
     #         rank:   2,
     #         views:  5000,
     #         clicks: 2500,
@@ -26,15 +28,15 @@ module LearnToRank::DataPipeline
   private
 
     def judgement_sets(queries)
-      queries.lazy.flat_map do |(query, documents)|
-        judgements(query, documents)
+      queries.lazy.flat_map do |(_, documents)|
+        judgements(documents)
       end
     end
 
     # Turn a set of view and click counts for documents in search
     # results into estimated click-through-rate@1 and then into
     # a set of judgements between 0 and 3.
-    def judgements(query, documents)
+    def judgements(documents)
       clicks_above_position = 0
       ranked_documents = documents.sort_by { |doc| doc[:rank] }
       ranked_documents.lazy.map do |document|
@@ -50,9 +52,10 @@ module LearnToRank::DataPipeline
                           end
 
         {
-          query: query,
+          query: document[:query],
           score: relevancy_score,
           link: document[:link],
+          content_id: document[:content_id],
         }
       end
     end
