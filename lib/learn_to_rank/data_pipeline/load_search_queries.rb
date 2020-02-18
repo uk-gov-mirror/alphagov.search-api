@@ -22,9 +22,10 @@ module LearnToRank::DataPipeline
       queries
     end
 
-    def self.from_bigquery(rows)
-      queries = {}
-      rows.each do |row|
+    # job here is a query_job (Data class):
+    # https://googleapis.dev/ruby/google-cloud-bigquery/latest/Google/Cloud/Bigquery/Data.html
+    def self.from_bigquery(data)
+      data.all.lazy.each_with_object({}) do |row, queries|
         query = row[:searchTerm].strip
         group_by = row[:contentId].present? && row[:contentId] != "(not set)" ? "content_id" : "links"
         key = "#{query}-#{group_by}"
@@ -38,7 +39,6 @@ module LearnToRank::DataPipeline
           clicks: row[:clicks],
         }
       end
-      queries
     end
   end
 end

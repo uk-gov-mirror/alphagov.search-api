@@ -4,7 +4,7 @@ module LearnToRank::DataPipeline
   module Bigquery
     def self.fetch(credentials)
       now = Time.now
-      before = now - 6 * 31 * 24 * 60 * 60 # 6 months
+      before = now - 3 * 31 * 24 * 60 * 60 # ~3 months
       sql = "SELECT * FROM (
   SELECT
   searchTerm,
@@ -41,7 +41,9 @@ module LearnToRank::DataPipeline
 WHERE views > 10"
 
       bigquery = Google::Cloud::Bigquery.new(credentials: credentials)
-      bigquery.query sql, standard_sql: true
+      job = bigquery.query_job sql, standard_sql: true
+      job.wait_until_done!
+      job.data unless job.failed?
     end
   end
 end

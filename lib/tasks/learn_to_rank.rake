@@ -21,7 +21,7 @@ namespace :learn_to_rank do
   task :fetch_bigquery_export, [:credentials] do |_, args|
     assert_ltr!
     data = LearnToRank::DataPipeline::Bigquery.fetch(JSON.parse(Base64.decode64(args.credentials)))
-    export_to_csv(data, "bigquery-export")
+    export_to_csv(data.all.lazy, "bigquery-export")
   end
 
   desc "Export a CSV of relevancy judgements generated from CTR on popular queries"
