@@ -5,7 +5,7 @@ module LearnToRank
     ERROR_STATUS = "Error".freeze
 
     REDIS_NAMESPACE = "search-api-ltr".freeze
-    REDIS_EXPIRATION_PERIOD = 60 * 60
+    REDIS_EXPIRATION_PERIOD = 6 * 60 * 60
     REDIS_STATUS_KEY = "ltr-status".freeze
     REDIS_LATEST_DATA_KEY = "ltr-latest-data".freeze
 
