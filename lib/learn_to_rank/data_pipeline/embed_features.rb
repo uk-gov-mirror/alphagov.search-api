@@ -61,7 +61,6 @@ module LearnToRank::DataPipeline
     def do_fetch(judgement)
       query = {
         "q" => [judgement[:query]],
-        "debug" => %w(explain),
         "fields" => %w(popularity content_id title format description link public_timestamp organisation_content_ids updated_at indexable_content),
         "count" => %w[20],
       }
