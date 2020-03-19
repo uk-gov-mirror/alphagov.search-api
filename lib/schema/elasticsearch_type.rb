@@ -8,10 +8,7 @@ class ElasticsearchType
   end
 
   def es_config
-    fields_to_hash = @fields.map { |field_name, field|
-      [field_name, field.es_config]
-    }
-    Hash[fields_to_hash]
+    @fields.transform_values(&:es_config)
   end
 end
 
@@ -107,13 +104,9 @@ class ElasticsearchTypesParser
   end
 
   def parse
-    parsed_arr = elasticsearch_type_paths.map { |elasticsearch_type, file_path|
-      [
-        elasticsearch_type,
-        ElasticsearchTypeParser.new(file_path, base_type, @field_definitions).parse,
-      ]
-    }
-    Hash[parsed_arr]
+    elasticsearch_type_paths.to_h.transform_values do |file_path|
+      ElasticsearchTypeParser.new(file_path, base_type, @field_definitions).parse
+    end
   end
 
 private
