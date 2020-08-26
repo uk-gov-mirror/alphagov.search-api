@@ -874,5 +874,28 @@
   "decision_subject": {
     "description": "The entity a tribunal or regulatory decision applies to",
     "type": "identifiers"
+  },
+
+  "register_type": {
+    "type": "searchable_identifier"
+  },
+  "product_type": {
+    "type": "searchable_identifier"
+  },
+  "product_category": {
+    "type": "searchable_identifier"
+  },
+  "file_number": {
+    "type": "identifier"
+  },
+  "protection_type": {
+    "type": "searchable_identifier"
+  },
+  "status": {
+    "type": "searchable_identifier"
+  },
+  "date_of_registration": {
+    "description": "The date when the assessment was held.",
+    "type": "date"
   }
 }

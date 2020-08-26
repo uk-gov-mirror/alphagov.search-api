@@ -36,6 +36,7 @@ person: person
 place: edition
 policy: policy # Policy Publisher
 press_release: edition
+protected_food_name: protected_food_name # Specialist Publisher
 raib_report: raib_report # Specialist Publisher
 residential_property_tribunal_decision: residential_property_tribunal_decision # Specialist Publisher
 service_manual_guide: service_manual_guide
