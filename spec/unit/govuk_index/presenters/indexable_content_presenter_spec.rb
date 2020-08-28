@@ -130,4 +130,37 @@ RSpec.describe GovukIndex::IndexableContentPresenter do
       expect(subject.indexable_content).to eq("hidden 1\n\n\nhidden 2\n\n\nintro\n\n\n\nmore")
     end
   end
+
+  context "coronavirus_landing_page with sections" do
+    let(:format) { "coronavirus_landing_page" }
+
+    let(:details) do
+      {
+        "sections" => [
+          {
+            "title" => "Blue Shadow Virus",
+            "sub_sections" => [
+              {
+                "list" => [
+                  {
+                    "url" => "/foo",
+                    "label" => "Apply for a test",
+                  },
+                  {
+                    "url" => "/bar",
+                    "label" => "What to do if you test positive",
+                  },
+                ],
+                "title" => "Testing for Blue Shadow Virus",
+              },
+            ],
+          },
+        ],
+      }
+    end
+
+    it "correctly indexes subsections" do
+      expect(subject.indexable_content).to eq("Blue Shadow Virus\n\n\nTesting for Blue Shadow Virus\n\n\nApply for a test\n\n\nWhat to do if you test positive")
+    end
+  end
 end

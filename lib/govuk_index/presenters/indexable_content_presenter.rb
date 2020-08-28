@@ -7,6 +7,7 @@ module GovukIndex
       "local_transaction" => %w[introduction more_information need_to_know],
       "transaction" => %w[introductory_paragraph more_information],
       "travel_advice" => %w[summary],
+      "coronavirus_landing_page" => %w[sections],
     }.freeze
 
     def initialize(format:, details:, sanitiser:)
@@ -36,7 +37,14 @@ module GovukIndex
     def indexable_content_parts
       indexable_content_keys.flat_map do |field|
         indexable_values = details[field] || []
-        field == "parts" ? parts(indexable_values) : [indexable_values]
+
+        if field == "parts"
+          parts(indexable_values)
+        elsif field == "sections"
+          sections(indexable_values)
+        else
+          [indexable_values]
+        end
       end
     end
 
@@ -47,6 +55,23 @@ module GovukIndex
     def parts(items)
       items.flat_map do |item|
         [item["title"], item["body"]]
+      end
+    end
+
+    def sections(items)
+      sections = items.map do |section|
+        [section["title"], subsections(section["sub_sections"])]
+      end
+
+      sections.flatten.compact
+    end
+
+    def subsections(items)
+      items.map do |subsection|
+        labels = subsection["list"].map do |list_item|
+          list_item["label"]
+        end
+        [subsection["title"], labels]
       end
     end
 
