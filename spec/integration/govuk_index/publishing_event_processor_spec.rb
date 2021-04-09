@@ -119,8 +119,8 @@ RSpec.describe "GovukIndex::PublishingEventProcessorTest" do
       allow(worker).to receive(:logger).and_return(logger)
 
       random_example = generate_random_example(
-        schema: "generic_with_external_related_links",
-        payload: { document_type: "smart_answer", payload_version: 123 },
+        schema: "special_route",
+        payload: { document_type: "special_route", payload_version: 123, base_path: "/tour" },
       )
 
       worker.perform([["test.route", random_example]])
